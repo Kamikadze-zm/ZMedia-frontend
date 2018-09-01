@@ -1,0 +1,8 @@
+<h2>Ошибка
+  <span *ngIf="status"> {{status}}</span>
+  <span *ngIf="statusText">. {{statusText}}</span>
+</h2>
+<p>{{message}}</p>
+<p>
+  <a class="link" (click)="back()">Назад</a>
+</p>

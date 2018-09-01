@@ -1,0 +1,33 @@
+<div class="media-body" style="overflow:visible">
+    <div class="media-left media-top pull-left">
+        <img src="{{tvSeries?.coverLink}}" class="media-object" style="width:185px; height: 207px" />
+    </div>
+    <strong>Название: </strong>
+    <span class="text">{{tvSeries?.name}}</span>
+    <br/>
+    <ng-container *ngIf="tvSeries?.originalName">
+        <strong>Оригинальное название: </strong>
+        <span class="text">{{tvSeries?.originalName}}</span>
+        <br/>
+    </ng-container>
+    <ng-container *ngIf="tvSeries?.seasonNumber">
+        <strong>Сезон: </strong>
+        <span class="text">{{tvSeries?.seasonNumber}}</span>
+        <br/>
+    </ng-container>
+    <strong>Год выхода: </strong>
+    <span class="text">{{tvSeries?.releaseYear}}</span>
+    <br/>
+    <strong>Жанр: </strong>
+    <span class="text">{{tvSeries?.stringGenres}}</span>
+    <br/>
+    <strong>Качество: </strong>
+    <span class="text">{{tvSeries?.quality?.quality}}</span>
+    <br/>
+    <strong>Размер серии: </strong>
+    <span class="text">~{{tvSeries?.formattedFileSize}}</span>
+    <br/>
+    <p innerHTML={{tvSeries?.additionalInfo}}></p>
+    <strong>О сериале: </strong>
+    <span class="text">{{tvSeries?.description}}</span>
+</div>

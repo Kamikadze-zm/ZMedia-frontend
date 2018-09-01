@@ -1,0 +1,31 @@
+<h2>Поиск</h2>
+<div class="col-sm-12">
+  <form class="form-inline search" (ngSubmit)="search()">
+    <div class="input-group col-sm-12" [ngClass]="{'has-error': isInvalid(),'has-success': isValid()}">
+      <input type="search" [formControl]="queryControl" class="form-control" placeholder="Поиск" />
+      <div class="input-group-btn">
+        <button type="submit" class="btn btn-primary">Искать</button>
+      </div>
+    </div>
+    <div *ngIf="isInvalid()" class="text-danger">
+      <p *ngFor="let e of getErrors()">{{e}}</p>
+    </div>
+  </form>
+</div>
+<h3 *ngIf="notFound">Ничего не найдено</h3>
+<ng-container *ngIf="searchResults.length > 0">
+  <h2>Результаты поиска</h2>
+  <div class="col-sm-12">
+    <div class="media publication" *ngFor="let r of searchResults" [ngSwitch]="r.type">
+      <h3 class="media-heading">
+        <a routerLink="/{{r.path}}/{{r.publication.id}}">{{r.publication.header}}
+          <span *ngIf="r.publication.note" class="note"> {{r.publication.note}}</span>
+        </a>
+      </h3>
+      <film-short-description *ngSwitchCase="'FILM'" [film]="r.publication"></film-short-description>
+      <tv-series-short-description *ngSwitchCase="'TV_SERIES'" [tvSeries]="r.publication"></tv-series-short-description>
+      <game-short-description *ngSwitchCase="'GAME'" [game]="r.publication"></game-short-description>
+      <publication-short-info [p]="r.publication" [path]="r.path"></publication-short-info>
+    </div>
+  </div>
+</ng-container>

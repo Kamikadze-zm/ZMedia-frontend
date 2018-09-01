@@ -1,0 +1,6 @@
+<div class="col-sm-12">
+  <film-full-description [film]="film"></film-full-description>
+  <publication-details-info [p]="film" (onDelete)="showModal()"></publication-details-info>
+  <publication-delete-modal [header]="film?.header" (onDelete)="delete()"></publication-delete-modal>
+  <app-comments [publicationId]="id" [publicationType]="type"></app-comments>
+</div>

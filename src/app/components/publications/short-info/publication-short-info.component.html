@@ -1,0 +1,7 @@
+<div class="publication-info text-muted clearfix">
+  <div class="col-sm-8 text-left">Просмотров: {{p?.viewsCount}} | Комментариев: {{p?.commentsCount}} | Добавлен: {{p?.formattedPublishDate}} | Автор: {{p?.author}}</div>
+  <div class="col-sm-4 text-right">
+    <a *ngIf="!path" routerLink="{{p?.id}}">Подробнее</a>
+    <a *ngIf="path"routerLink="/{{path}}/{{p?.id}}">Подробнее</a>
+  </div>
+</div>

@@ -1,0 +1,177 @@
+<div class="preview clearfix" [ngStyle]="{'display':isDisablePreview === true ? 'none' : 'block'}">
+  <h3>Предпросмотр</h3>
+  <film-full-description [film]="previewFilm"></film-full-description>
+  <div class="btn-toolbar pull-right">
+    <button type="button" *ngIf="!isDisablePreview" class="btn btn-default" (click)="hidePreview()">Скрыть предпросмотр</button>
+    <button type="button" *ngIf="!isDisablePreview" class="btn btn-default" (click)="updatePreview()">Обновить предпросмотр</button>
+  </div>
+</div>
+<form [formGroup]="filmForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+  <div class="form-group" [ngClass]="{'has-error': isInvalid('header'),'has-success': isValid('header')}">
+    <label for="header" class="col-sm-2 control-label">Заголовок: </label>
+    <div class="col-sm-6">
+      <input type="text" id="header" formControlName="header" class="form-control" />
+    </div>
+    <div *ngIf="isInvalid('header')" class="col-sm-4 help-block">
+      <p *ngFor="let e of getErrors('header')">{{e}}</p>
+    </div>
+  </div>
+  <div *ngIf="film" class="form-group" [ngClass]="{'has-error': isInvalid('note'),'has-success': isValid('note')}">
+    <label for="note" class="col-sm-2 control-label">Заметка: </label>
+    <div class="col-sm-6">
+      <input type="text" id="note" formControlName="note" class="form-control" />
+    </div>
+    <div *ngIf="isInvalid('note')" class="col-sm-4 help-block">
+      <p *ngFor="let e of getErrors('note')">{{e}}</p>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': isInvalid('name'),'has-success': isValid('name')}">
+    <label for="name" class="col-sm-2 control-label">Название: </label>
+    <div class="col-sm-6">
+      <input type="text" id="name" formControlName="name" class="form-control" />
+    </div>
+    <div *ngIf="isInvalid('name')" class="col-sm-4 help-block">
+      <p *ngFor="let e of getErrors('name')">{{e}}</p>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': isInvalid('originalName'),'has-success': isValid('originalName')}">
+    <label for="originalName" class="col-sm-2 control-label">Оригинальное название: </label>
+    <div class="col-sm-6">
+      <input type="text" id="originalName" formControlName="originalName" class="form-control" />
+    </div>
+    <div *ngIf="isInvalid('originalName')" class="col-sm-4 help-block">
+      <p *ngFor="let e of getErrors('originalName')">{{e}}</p>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': isInvalid('releaseYear'),'has-success': isValid('releaseYear')}">
+    <label for="releaseYear" class="col-sm-2 control-label">Год выхода: </label>
+    <div class="col-sm-6">
+      <input type="number" id="releaseYear" formControlName="releaseYear" class="form-control" min="1900" />
+    </div>
+    <div *ngIf="isInvalid('releaseYear')" class="col-sm-4 help-block">
+      <p *ngFor="let e of getErrors('releaseYear')">{{e}}</p>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': isInvalid('genres'),'has-success': isValid('genres')}">
+    <label class="col-sm-2 control-label">Жанры: </label>
+    <div *ngIf="isInvalid('genres')" class="col-sm-10 help-block">
+      <p *ngFor="let e of getErrors('genres')">{{e}}</p>
+    </div>
+    <label *ngFor="let g of filmGenres; let i = index" class="checkbox-inline">
+      <input type="checkbox" id="genre{{i}}" formArrayName="genres" (change)="onChangeCheckbox($event.target.checked, $event.target.value)"
+        value="{{g.id}}" [checked]="isSelectedGenre(g.id)"> {{g.genre}}
+    </label>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': isInvalid('quality'),'has-success': isValid('quality')}">
+    <label for="quality" class="col-sm-2 control-label">Качество: </label>
+    <div class="col-sm-6">
+      <select id="quality" formControlName="quality" class="form-control" p>
+        <option disabled selected [ngValue]="null">Выберите качество</option>
+        <option *ngFor="let q of filmQualities" value="{{q.id}}">{{q.quality}}</option>
+      </select>
+    </div>
+    <div *ngIf="isInvalid('quality')" class="col-sm-4 help-block">
+      <p *ngFor="let e of getErrors('quality')">{{e}}</p>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': isInvalid('fileSize'),'has-success': isValid('fileSize')}">
+    <label for="fileSize" class="col-sm-2 control-label">Размер файла: </label>
+    <div class="col-sm-5">
+      <input type="number" id="fileSize" class="form-control" [formControl]="fs" (change)="setFileSize()" min="0" />
+    </div>
+    <div class="col-sm-1">
+      <select class="form-control" [formControl]="fsMU" (change)="setFileSize()">
+        <option value="g" selected>Гб</option>
+        <option value="m">Мб</option>
+      </select>
+    </div>
+    <div *ngIf="isInvalid('fileSize')" class="col-sm-4 help-block">
+      <p *ngFor="let e of getErrors('fileSize')">{{e}}</p>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': isInvalid('coverLink'),'has-success': isValid('coverLink')}">
+    <label for="coverImg" class="col-sm-2 control-label">Обложка: </label>
+    <div class="col-sm-1">
+      <img src="{{coverLink}}" style="height: 70px;" />
+    </div>
+    <div class="col-sm-5">
+      <input type="file" id="coverImg" class="form-control" onclick="this.value = null" (change)="uploadImage($event.target.files)"
+      />
+    </div>
+    <div *ngIf="isInvalid('coverLink')" class="col-sm-4 help-block">
+      <p *ngFor="let e of getErrors('coverLink')">{{e}}</p>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': isInvalid('description'),'has-success': isValid('description')}">
+    <label for="description" class="col-sm-2 control-label">Описание: </label>
+    <div *ngIf="isInvalid('description')" class="col-sm-8 help-block">
+      <p *ngFor="let e of getErrors('description')">{{e}}</p>
+    </div>
+    <div class="col-sm-offset-1 col-sm-10">
+      <textarea id="description" formControlName="description" rows="2" class="form-control"></textarea>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': isInvalid('additionalInfo'),'has-success': isValid('additionalInfo')}">
+    <label for="additionalInfo" class="col-sm-5 control-label">Дополнительная информация (режиссер, актеры): </label>
+    <div *ngIf="isInvalid('additionalInfo')" class="col-sm-8 help-block">
+      <p *ngFor="let e of getErrors('additionalInfo')">{{e}}</p>
+    </div>
+    <ckeditor [config]="ckeditorConfig" debounce="500" id="additionalInfo" formControlName="additionalInfo" class="col-sm-offset-1 col-sm-10">
+    </ckeditor>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': isInvalid('details'),'has-success': isValid('details')}">
+    <label for="details" class="col-sm-5 control-label">Подробности (рейтинг, тех. данные, скриншоты и пр.): </label>
+    <div *ngIf="isInvalid('details')" class="col-sm-8 help-block">
+      <p *ngFor="let e of getErrors('details')">{{e}}</p>
+    </div>
+    <ckeditor [config]="ckeditorConfig" debounce="500" id="details" formControlName="details" class="col-sm-offset-1 col-sm-10">
+    </ckeditor>
+  </div>
+  <div formArrayName="downloadLinks">
+    <div class="form-group" [ngClass]="{'has-error': isInvalid('downloadLinks'),'has-success': isValid('downloadLinks')}">
+      <label class="col-sm-2 control-label">Ссылки: </label>
+      <div *ngIf="isInvalid('downloadLinks')" class="col-sm-8 help-block">
+        <p *ngFor="let e of getErrors('downloadLinks')">{{e}}</p>
+      </div>
+    </div>
+    <div *ngFor="let dl of downloadLinks; let i = index" [formGroupName]="i" class="col-sm-12">
+      <div class="form-group" [ngClass]="{'has-error': isInvalid(['downloadLinks',i,'description']),'has-success': isValid(['downloadLinks',i,'description'])}">
+        <label for="description{{i}}" class="col-sm-2 control-label">Описание: </label>
+        <div class="col-sm-6">
+          <input type="text" id="description{{i}}" formControlName="description" class="form-control" />
+        </div>
+        <div *ngIf="isInvalid(['downloadLinks',i,'description'])" class="col-sm-4 help-block">
+          <p *ngFor="let e of getErrors(['downloadLinks',i,'description'])">{{e}}</p>
+        </div>
+      </div>
+      <div class="form-group" [ngClass]="{'has-error': isInvalid(['downloadLinks',i,'link']),'has-success': isValid(['downloadLinks',i,'link'])}">
+        <label for="link{{i}}" class="col-sm-2 control-label">Ссылка: </label>
+        <div class="col-sm-6">
+          <input type="text" id="link{{i}}" formControlName="link" class="form-control" />
+        </div>
+        <div *ngIf="isInvalid(['downloadLinks',i,'link'])" class="col-sm-4 help-block">
+          <p *ngFor="let e of getErrors(['downloadLinks',i,'link'])">{{e}}</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6 text-right">
+          <button type="button" (click)="deleteLink(i)" class="btn btn-default">Удалить ссылку</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-6">
+        <button type="button" (click)="addLink()" class="btn btn-default">Добавить ссылку</button>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-6">
+      <div class="btn-toolbar">
+        <button type="button" class="btn btn-default" (click)="back()">Отмена</button>
+        <button type="button" *ngIf="isDisablePreview" class="btn btn-default" (click)="preview()">Предпросмотр</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,12 @@
+<div class="publication-info text-muted clearfix">
+  <div class="col-sm-8 text-left">Просмотров: {{p?.viewsCount}} | Добавлен: {{p?.formattedPublishDate}} | Автор: {{p?.author}}</div>
+  <div class="col-sm-4 text-right">
+    <a class="link" (click)="back()">Назад</a>
+    <ng-container *authorized="'ADMIN'; orName: p?.author">
+      |
+      <a routerLink="edit">Редактировать</a>
+      |
+      <a class="link" (click)="onDelete()">Удалить</a>
+    </ng-container>
+  </div>
+</div>

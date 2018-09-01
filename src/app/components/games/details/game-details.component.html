@@ -1,0 +1,6 @@
+<div class="col-sm-12">
+  <game-full-description [game]="game"></game-full-description>
+  <publication-details-info [p]="game" (onDelete)="showModal()"></publication-details-info>
+  <publication-delete-modal [header]="game?.header" (onDelete)="delete()"></publication-delete-modal>
+  <app-comments [publicationId]="id" [publicationType]="type"></app-comments>
+</div>

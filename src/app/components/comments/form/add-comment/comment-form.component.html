@@ -1,0 +1,12 @@
+<form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group clearfix" [ngClass]="{'has-error': isInvalid('comment'),'has-success': isValid('comment')}">
+        <label for="comment" class="control-label">Комментарий: </label>
+        <div *ngIf="isInvalid('comment')" class="help-block">
+            <p *ngFor="let e of getErrors('comment')">{{e}}</p>
+        </div>
+        <textarea id="comment" formControlName="comment" rows="2" class="form-control" style="width: 80%"></textarea>
+    </div>
+    <div class="form-group">
+        <button type="submit" [disabled]="!commentForm.valid" class="btn btn-primary">Комментировать</button>
+    </div>
+</form>

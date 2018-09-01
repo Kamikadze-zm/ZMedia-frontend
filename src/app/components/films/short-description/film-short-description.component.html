@@ -1,0 +1,28 @@
+<div class="media-body" style="overflow:visible">
+    <div class="media-left media-top pull-left">
+        <img src="{{film?.coverLink}}" class="media-object" style="width:185px; height: 207px" />
+    </div>
+    <strong>Название: </strong>
+    <span class="text">{{film?.name}}</span>
+    <br/>
+    <ng-container *ngIf="film?.originalName">
+        <strong>Оригинальное название: </strong>
+        <span class="text">{{film?.originalName}}</span>
+        <br/>
+    </ng-container>
+    <strong>Год выхода: </strong>
+    <span class="text">{{film?.releaseYear}}</span>
+    <br/>
+    <strong>Жанр: </strong>
+    <span class="text">{{film?.stringGenres}}</span>
+    <br/>
+    <strong>Качество: </strong>
+    <span class="text">{{film?.quality?.quality}}</span>
+    <br/>
+    <strong>Размер: </strong>
+    <span class="text">{{film?.formattedFileSize}}</span>
+    <br/>
+    <p innerHTML={{film?.additionalInfo}}></p>
+    <strong>О фильме: </strong>
+    <span class="text">{{film?.description}}</span>
+</div>

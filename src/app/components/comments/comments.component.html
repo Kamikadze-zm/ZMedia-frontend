@@ -1,0 +1,35 @@
+<div class="comments">
+    <h3>Комментарии</h3>
+    <ul class="comments-list">
+        <ng-container *ngFor="let c of comments">
+            <li id="item{{c.id}}" class="comment-item" [ngClass]="c.normilizedLevel ? 'col-xs-offset-' + c.normilizedLevel : ''">
+                <div class="media">
+                    <div class="media-left media-top pull-left">
+                        <img src="{{c.authorAvatar}}" class="media-object" />
+                    </div>
+                    <div class="media-body">
+                        <div class="comment-info">
+                            <span class="comment-author">{{c.authorName}}</span>
+                            <span class="comment-date">{{c.formattedCommentDate}}</span>
+                            <span *ngIf="c.status" class="comment-status">{{c.statusMessage}} {{c.formattedChangedDate}}</span>
+                        </div>
+                        <div class="comment" [innerHtml]="c.comment | safeHtml"></div>
+                        <div *authenticated class="comment-actions">
+                            <ng-container *ngIf="!c.isDeleted()">
+                                <a (click)="reply(c.id)">Ответить</a>
+                                <a (click)="quote(c.id)">Цитировать</a>
+                                <ng-container *authorized="'ADMIN'; orName: c.authorName">
+                                    <a (click)="edit(c.id)">Редактировать</a>
+                                    <a (click)="delete(c.id)">Удалить</a>
+                                </ng-container>
+                            </ng-container>
+                            <a *authorized="'ADMIN'" (click)="realDelete(c.id)">Реальное удаление</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ng-container>
+    </ul>
+    <comment-form *authenticated (onSubmit)="add($event)" id="commentForm"></comment-form>
+    <p *notAuthenticated class="label">Только зарегистрированные пользователи могут оставлять комментарии.</p>
+</div>

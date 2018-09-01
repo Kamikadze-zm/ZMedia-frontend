@@ -1,0 +1,14 @@
+<h2>Новинки</h2>
+<div class="col-sm-6 media novelty" *ngFor="let n of novelties">
+  <div class="media-left media-top">
+    <img src="{{n?.coverLink}}" class="media-object" style="width:185px; height: 207px" />
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">
+      <a class="header" routerLink="/{{n?.path}}/{{n?.id}}">{{n.header}}
+        <span *ngIf="n?.note" class="note"> {{n?.note}}</span>
+      </a>
+    </h4>
+    <p>{{n?.description}}</p>
+  </div>
+</div>

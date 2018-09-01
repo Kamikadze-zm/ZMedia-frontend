@@ -1,0 +1,27 @@
+<div class="modal fade" tabindex="-1" role="dialog" #modal>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Загрузка файла на сервер</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="fileInput" class="col-sm-1 control-label" style="color: #333333">Файл: </label>
+          <div class="col-sm-8">
+            <input type="file" id="fileInput" #fileInput (change)="onChange()" class="form-control" style="border-color: #cccccc" />
+          </div>
+          <button type="button" class="btn btn-primary" (click)="upload()">Загрузить</button>
+          <div class="col-sm-11" *ngIf="error" style="margin-top: 10px">
+            <p class="text-danger">{{error}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="hide()">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>

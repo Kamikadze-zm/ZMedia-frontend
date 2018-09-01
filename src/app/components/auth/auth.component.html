@@ -1,0 +1,23 @@
+<ng-container *ngIf="isAuthenticated; then thenBlock else elseBlock"></ng-container>
+<ng-template #thenBlock>
+  <section id="auth">
+    <span class="username">Добро пожаловать, {{authService.user?.name}}</span>
+    <ul>
+      <li>
+        <button class="btn btn-default" (click)="logout()">Выход</button>
+      </li>
+    </ul>
+  </section>
+</ng-template>
+<ng-template #elseBlock>
+  <section id="auth">
+    <ul>
+      <li>
+        <a routerLink="/login" class="btn btn-primary">Вход</a>
+      </li>
+      <li>
+        <a routerLink="/registration" class="btn btn-primary">Регистрация</a>
+      </li>
+    </ul>
+  </section>
+</ng-template>

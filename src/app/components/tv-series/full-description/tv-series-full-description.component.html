@@ -1,0 +1,23 @@
+<div class="media publication">
+    <h2 class="media-heading">
+        {{tvSeries?.header}}
+        <span *ngIf="tvSeries?.note" class="note"> {{tvSeries?.note}}</span>
+    </h2>
+    <tv-series-short-description [tvSeries]="tvSeries"></tv-series-short-description>
+    <div class="box">
+        <div class="description">
+            <div class="clearfix" [innerHTML]="tvSeries?.details | safeHtml"></div>
+            <div class="spoiler">
+                <div class="spoiler-title">
+                    <div class="spoiler-toggle hide-icon">&nbsp;</div>Ссылки
+                </div>
+                <div id="links" class="text-center spoiler-content" style="display: none;">
+                    <ng-container *ngFor="let link of tvSeries?.downloadLinks">
+                        <a class="downloadlink" [href]="link.link | safeUrl">{{link.description || 'Ссылка'}}</a>
+                        <br/>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

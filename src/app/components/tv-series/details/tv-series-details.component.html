@@ -1,0 +1,6 @@
+<div class="col-sm-12">
+  <tv-series-full-description [tvSeries]="tvSeries"></tv-series-full-description>
+  <publication-details-info [p]="tvSeries" (onDelete)="showModal()"></publication-details-info>
+  <publication-delete-modal [header]="tvSeries?.header" (onDelete)="delete()"></publication-delete-modal>
+  <app-comments [publicationId]="id" [publicationType]="type"></app-comments>
+</div>

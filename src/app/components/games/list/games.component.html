@@ -1,0 +1,14 @@
+<h2>Игры</h2>
+<div class="col-sm-12">
+  <a *authorized="'MODER'" routerLink="add">Добавить игру</a>
+  <div class="media publication" *ngFor="let g of games">
+    <h3 class="media-heading">
+      <a routerLink="{{g?.id}}">{{g?.header}}
+        <span *ngIf="g?.note" class="note"> {{g?.note}}</span>
+      </a>
+    </h3>
+    <game-short-description [game]="g"></game-short-description>
+    <publication-short-info [p]="g"></publication-short-info>
+  </div>
+  <pagination [pagination]="pagination"></pagination>
+</div>

@@ -1,0 +1,25 @@
+<nav class="text-center">
+  <ul class="pagination pagination-lg">
+    <li *ngIf="pagination.isShowPrev()"><a [routerLink]="['./']" [queryParams]="{page:pagination.currentPage - 1}" title="Предыдущая"
+        class="prev">&laquo;</a></li>
+    <ng-container *ngIf="pagination.isShowAllPrev()">
+      <li *ngFor="let p of pagination.allPrevPages"><a [routerLink]="['./']" [queryParams]="{page:p}">{{p}}</a></li>
+    </ng-container>
+    <ng-container *ngIf="pagination.isShowFirstAndPrev()">
+      <li *ngFor="let p of pagination.firstPages"><a [routerLink]="['./']" [queryParams]="{page:p}">{{p}}</a></li>
+      <li class="disabled"><span style="cursor: default">...</span></li>
+      <li *ngFor="let p of pagination.prevPages"><a [routerLink]="['./']" [queryParams]="{page:p}">{{p}}</a></li>
+    </ng-container>
+    <li class="active"><a>{{pagination.currentPage}}</a></li>
+    <ng-container *ngIf="pagination.isShowAllNext()">
+      <li *ngFor="let p of pagination.allNextPages"><a [routerLink]="['./']" [queryParams]="{page:p}">{{p}}</a></li>
+    </ng-container>
+    <ng-container *ngIf="pagination.isShowNextAndLast()">
+      <li *ngFor="let p of pagination.nextPages"><a [routerLink]="['./']" [queryParams]="{page:p}">{{p}}</a></li>
+      <li class="disabled"><span style="cursor: default">...</span></li>
+      <li *ngFor="let p of pagination.lastPages"><a [routerLink]="['./']" [queryParams]="{page:p}">{{p}}</a></li>
+    </ng-container>
+    <li *ngIf="pagination.isShowNext()"><a [routerLink]="['./']" [queryParams]="{page:pagination.currentPage + 1}" title="Следующая"
+        class="next">&raquo;</a></li>
+  </ul>
+</nav>
