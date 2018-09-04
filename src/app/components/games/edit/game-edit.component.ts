@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { PublicationType } from '../../../model/publication';
 import { GameService } from '../../../services/game.service';
 import { GameViewDTO } from '../../../model/game';
+import { plainToClass } from 'class-transformer';
 
 @Component({
   selector: 'app-game-edit',
@@ -26,7 +27,7 @@ export class GameEditComponent implements OnInit, OnDestroy {
     this.paramsSub = this.route.params.subscribe(params => {
       this.id = params['id'];
       this.gameService.getById(this.id).subscribe((game: GameViewDTO) => {
-        this.game = game;
+        this.game = plainToClass(GameViewDTO, game);
       });
     });
   }

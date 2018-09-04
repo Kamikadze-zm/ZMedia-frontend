@@ -24,6 +24,12 @@
                 "glob": "{+(adapters|lang|plugins|skins)/**/*,config.js,styles.js,contents.css}",
                 "input": "./node_modules/ckeditor",
                 "output": "resources/ckeditor"
+              },
+              "src/firebase-messaging-sw.js",
+              {
+                "glob": "{firebase-app.js,firebase-messaging.js}",
+                "input": "./node_modules/firebase",
+                "output": "resources/scripts"
               }
             ],
             "styles": [

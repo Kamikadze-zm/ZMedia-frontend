@@ -49,6 +49,9 @@ export class PublicationsPage {
 }
 
 export class PublicationViewDTO extends PublicationShortViewDTO {
+
+    private _details: string;
+
     constructor(id: number,
         header: string,
         note: string,
@@ -64,7 +67,7 @@ export class PublicationViewDTO extends PublicationShortViewDTO {
         author: string,
         viewsCount: number,
         commentsCount: number,
-        public details: string,
+        details: string,
         public downloadLinks: Array<DownloadLinkDTO>) {
         super(id,
             header,
@@ -81,6 +84,17 @@ export class PublicationViewDTO extends PublicationShortViewDTO {
             author,
             viewsCount,
             commentsCount);
+        this.details = details;
+    }
+    public get details(): string {
+        if (this._details) {
+            return this._details.replace(/http:\/\/www\.kinopoisk\.ru/g, 'https://www.kinopoisk.ru');
+        }
+        return this._details;
+    }
+
+    public set details(details: string) {
+        this._details = details;
     }
 }
 

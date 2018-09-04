@@ -7,6 +7,7 @@ import { CustomValidators } from '../../../validators/custom-validators';
 import { Subscription } from 'rxjs';
 import { FilmViewDTO } from '../../../model/film';
 import { PublicationType } from '../../../model/publication';
+import { plainToClass } from 'class-transformer';
 
 @Component({
   selector: 'app-film-edit',
@@ -26,7 +27,7 @@ export class FilmEditComponent implements OnInit, OnDestroy {
     this.paramsSub = this.route.params.subscribe(params => {
       this.id = params['id'];
       this.filmService.getById(this.id).subscribe((film: FilmViewDTO) => {
-        this.film = film;
+        this.film = plainToClass(FilmViewDTO, film);
       });
     });
   }
