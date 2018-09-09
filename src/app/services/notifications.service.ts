@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Constants } from "../util/constants";
 import { BehaviorSubject } from "rxjs";
+import { isSupported } from '@firebase/messaging'
 import { messaging } from 'firebase/app';
 
 @Injectable({
@@ -20,6 +21,9 @@ export class NotificationsService {
     public isSubscribed$: BehaviorSubject<boolean>;
 
     constructor(private http: HttpClient) {
+        if (!isSupported()) {
+            return;
+        }
         this.messaging = messaging();
         this.messaging.usePublicVapidKey("BHBUcRbzxMTMS0ORmBe9tYk0N4cpKJIBQxTHw-NQ2TNqy2EfnQhKP_0RTGtxggFHrrqBrcipCG14YXRshVsjcqc");
         this.isSubscribed$ = new BehaviorSubject<boolean>(this.isSubscribed());
@@ -32,6 +36,9 @@ export class NotificationsService {
     }
 
     subscribe(): void {
+        if (!isSupported()) {
+            return;
+        }
         this.messaging.requestPermission()
             .then(() => {
                 this.saveToken();
@@ -47,6 +54,9 @@ export class NotificationsService {
     }
 
     unsubscribe(): void {
+        if (!isSupported()) {
+            return;
+        }
         if (this.notificationsToken) {
             this.deleteToken();
         }
