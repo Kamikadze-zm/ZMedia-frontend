@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 import { isValidationError, ValidationError } from '../../../model/error';
 import { CustomValidators } from '../../../validators/custom-validators';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { PublicationType } from '../../../model/publication';
 import { TvSeriesService } from '../../../services/tv-series.service';
 import { TvSeriesViewDTO } from '../../../model/tv-series';
 import { plainToClass } from 'class-transformer';
+import { markTouched } from '../../../util/forms-util';
 
 @Component({
   selector: 'app-tv-series-edit',
@@ -21,12 +22,12 @@ export class TvSeriesEditComponent implements OnInit, OnDestroy {
 
   private paramsSub: Subscription;
 
-  constructor(private filmService: TvSeriesService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private tvSeriesService: TvSeriesService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.paramsSub = this.route.params.subscribe(params => {
       this.id = params['id'];
-      this.filmService.getById(this.id).subscribe((tvSeries: TvSeriesViewDTO) => {
+      this.tvSeriesService.getById(this.id).subscribe((tvSeries: TvSeriesViewDTO) => {
         this.tvSeries = plainToClass(TvSeriesViewDTO, tvSeries);
       });
     });
@@ -34,7 +35,7 @@ export class TvSeriesEditComponent implements OnInit, OnDestroy {
 
   edit(event: FormGroup): void {
     if (event.valid) {
-      this.filmService.update(this.id, event.value).subscribe(
+      this.tvSeriesService.update(this.id, event.value).subscribe(
         () => { this.router.navigate([`/${PublicationType.TV_SERIES}`, this.id]) },
         (err) => {
           if (isValidationError(err)) {
@@ -55,14 +56,7 @@ export class TvSeriesEditComponent implements OnInit, OnDestroy {
   }
 
   private markTouched(group: FormGroup | FormArray) {
-    Object.keys(group.controls).forEach((k: string) => {
-      const control: AbstractControl = group.controls[k];
-      if (control instanceof FormGroup || control instanceof FormArray) {
-        this.markTouched(control);
-      } else {
-        control.markAsTouched();
-      }
-    });
+    markTouched(group);
   }
 
   ngOnDestroy() {

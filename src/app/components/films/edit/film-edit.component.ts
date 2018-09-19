@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 import { FilmService } from '../../../services/film.service';
 import { isValidationError, ValidationError } from '../../../model/error';
 import { CustomValidators } from '../../../validators/custom-validators';
@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { FilmViewDTO } from '../../../model/film';
 import { PublicationType } from '../../../model/publication';
 import { plainToClass } from 'class-transformer';
+import { markTouched } from '../../../util/forms-util';
 
 @Component({
   selector: 'app-film-edit',
@@ -55,14 +56,7 @@ export class FilmEditComponent implements OnInit, OnDestroy {
   }
 
   private markTouched(group: FormGroup | FormArray) {
-    Object.keys(group.controls).forEach((k: string) => {
-      const control: AbstractControl = group.controls[k];
-      if (control instanceof FormGroup || control instanceof FormArray) {
-        this.markTouched(control);
-      } else {
-        control.markAsTouched();
-      }
-    });
+    markTouched(group);
   }
 
   ngOnDestroy() {

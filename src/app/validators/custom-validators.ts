@@ -1,4 +1,4 @@
-import { ValidatorFn, AbstractControl } from "@angular/forms";
+import { ValidatorFn, AbstractControl, FormArray } from "@angular/forms";
 
 export function isEmptyValue(value: any): boolean {
     return value == null || value.length === 0;
@@ -13,7 +13,7 @@ export class CustomValidators {
     public static required(message: string): ValidatorFn {
         return (control: AbstractControl): { [key: string]: any } => {
             const value = control.value;
-            if (isEmptyValue(value)) {
+            if (isEmptyValue(value) || this.isEmptyFormArray(control)) {
                 return { required: message };
             }
             return null;
@@ -46,7 +46,12 @@ export class CustomValidators {
             if (isEmptyValue(value)) {
                 return null;
             }
-            const length: number = control.value.length;
+            let length: number;
+            if (control instanceof FormArray) {
+                length = control.length;
+            } else {
+                length = control.value.length;
+            }
             if ((min && max && (length < min || length > max))
                 || (min && length < min)
                 || (max && length > max)) {
@@ -100,5 +105,12 @@ export class CustomValidators {
                 [errorName]: errorMessage
             })
         }
+    }
+
+    private static isEmptyFormArray(c: AbstractControl): boolean {
+        if (c instanceof FormArray && c.length === 0) {
+            return true;
+        }
+        return false;
     }
 }

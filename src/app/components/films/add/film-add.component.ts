@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 import { FilmService } from '../../../services/film.service';
 import { isValidationError, ValidationError } from '../../../model/error';
 import { CustomValidators } from '../../../validators/custom-validators';
 import { PublicationType } from '../../../model/publication';
+import { FilmViewDTO } from '../../../model/film';
+import { plainToClass } from 'class-transformer';
+import { markTouched } from '../../../util/forms-util';
 
 @Component({
   selector: 'app-film-add',
@@ -12,6 +15,9 @@ import { PublicationType } from '../../../model/publication';
   providers: [FilmService]
 })
 export class FilmAddComponent {
+
+  from: number;
+  film: FilmViewDTO;
 
   constructor(private filmService: FilmService, private router: Router) { }
 
@@ -38,13 +44,14 @@ export class FilmAddComponent {
   }
 
   private markTouched(group: FormGroup | FormArray) {
-    Object.keys(group.controls).forEach((k: string) => {
-      const control: AbstractControl = group.controls[k];
-      if (control instanceof FormGroup || control instanceof FormArray) {
-        this.markTouched(control);
-      } else {
-        control.markAsTouched();
-      }
-    });
+    markTouched(group);
+  }
+
+  fill(): void {
+    if (this.from) {
+      this.filmService.getById(this.from).subscribe((film: FilmViewDTO) => {
+        this.film = plainToClass(FilmViewDTO, film);
+      });
+    }
   }
 }

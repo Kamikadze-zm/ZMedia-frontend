@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 import { isValidationError, ValidationError } from '../../../model/error';
 import { CustomValidators } from '../../../validators/custom-validators';
 import { PublicationType } from '../../../model/publication';
 import { GameService } from '../../../services/game.service';
+import { markTouched } from '../../../util/forms-util';
 
 @Component({
   selector: 'app-game-add',
@@ -38,13 +39,6 @@ export class GameAddComponent {
   }
 
   private markTouched(group: FormGroup | FormArray) {
-    Object.keys(group.controls).forEach((k: string) => {
-      const control: AbstractControl = group.controls[k];
-      if (control instanceof FormGroup || control instanceof FormArray) {
-        this.markTouched(control);
-      } else {
-        control.markAsTouched();
-      }
-    });
+    markTouched(group);
   }
 }

@@ -1,2 +1,9 @@
 <h2>Добавление фильма</h2>
-<film-form (onSubmit)="addFilm($event)"></film-form>
+<div class="form-inline" style="margin: 20px 0 40px 15px">
+    <div class="form-group">
+        <label for="from" class="control-label">Заполнить из: </label>
+        <input type="number" id="from" name="from" [(ngModel)]="from" class="form-control" placeholder="id" />
+    </div>
+    <button type="button" (click)="fill()" class="btn btn-primary">Заполнить</button>
+</div>
+<film-form [film]="film" (onSubmit)="addFilm($event)"></film-form>
