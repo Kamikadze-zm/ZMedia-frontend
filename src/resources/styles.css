@@ -194,3 +194,28 @@ p {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
 }
+
+/* to top button */
+.to-top-but
+{
+    z-index:2000;
+    position:fixed;
+    bottom: 50px;
+    right: 30px;
+    width:68px;
+    height: 54px;
+    padding-top: 30px;
+    opacity: 0.5;
+    color:white;
+    background: #0066cc url("/resources/images/gotop.png") no-repeat center 12px;
+    border-radius:7px;
+    text-align: center;
+    text-decoration: none;
+}
+.to-top-but:hover
+{
+    color:white;
+    text-decoration: none;
+    opacity:1;
+    cursor:pointer;
+}

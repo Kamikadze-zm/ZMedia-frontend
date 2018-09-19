@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 
 @Component({
@@ -8,6 +8,10 @@ import { initializeApp } from 'firebase/app';
 })
 export class AppComponent implements OnInit {
 
+  private year: number;
+
+  isShowToTop: boolean = false;
+
   ngOnInit() {
     initializeApp({
       'messagingSenderId': '10619003428'
@@ -15,6 +19,23 @@ export class AppComponent implements OnInit {
   }
 
   get currentYear(): number {
-    return new Date().getFullYear();
+    if (!this.year) {
+      this.year = new Date().getFullYear();
+    }
+    return this.year;
   }
+
+  goToTop(): void {
+    window.scrollTo(0, 0);
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  scroll() {
+    if (window.pageYOffset > 500) {
+      this.isShowToTop = true;
+    } else {
+      this.isShowToTop = false;
+    }
+  }
+
 }
