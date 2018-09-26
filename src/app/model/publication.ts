@@ -4,6 +4,8 @@ import { CustomValidators } from "../validators/custom-validators";
 import { formatDate } from "../util/date-util";
 import { Pagination } from "./pagination";
 
+const KINOPOISK_REGEXP: RegExp = /http:\/\/www\.kinopoisk\.ru/g;
+
 export class PublicationShortViewDTO {
     constructor(public id: number,
         public header: string,
@@ -88,7 +90,7 @@ export class PublicationViewDTO extends PublicationShortViewDTO {
     }
     public get details(): string {
         if (this._details) {
-            return this._details.replace(/http:\/\/www\.kinopoisk\.ru/g, 'https://www.kinopoisk.ru');
+            return this._details.replace(KINOPOISK_REGEXP, 'https://www.kinopoisk.ru');
         }
         return this._details;
     }
