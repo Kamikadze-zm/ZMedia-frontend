@@ -4,6 +4,9 @@
     <span class="username">Добро пожаловать, {{authService.user?.name}}</span>
     <ul>
       <li>
+        <a class="btn btn-primary" routerLink="/account">Аккаунт</a>
+      </li>
+      <li>
         <button class="btn btn-default" (click)="logout()">Выход</button>
       </li>
     </ul>

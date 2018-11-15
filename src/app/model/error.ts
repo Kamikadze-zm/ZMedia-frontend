@@ -35,6 +35,18 @@ export class ValidationFieldError extends ValidationObjectError {
     }
 }
 
+export function isApiError(error: any): boolean {
+    return error && error.status == 400 && error.error;
+}
+
+export function isMessageError(error: any): boolean {
+    return isApiError(error) && error.error.errorCode == 0;
+}
+
 export function isValidationError(error: any): boolean {
-    return error && error.status == 400 && error.error && error.error.errorCode == 1;
+    return isApiError(error) && error.error.errorCode == 1;
+}
+
+export function isVerificationCodeError(error: any): boolean {
+    return isApiError(error) && error.error.errorCode == 2;
 }

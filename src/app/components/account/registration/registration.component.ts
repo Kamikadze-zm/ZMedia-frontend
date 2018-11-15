@@ -8,6 +8,9 @@ import { AuthService } from '../../../services/auth.service';
 import { CustomValidators, isEmptyValue } from '../../../validators/custom-validators';
 import { UserCredentials } from '../../../model/user-credentials';
 import { ValidationError } from '../../../model/error';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { Constants } from 'src/app/util/constants';
+import { addError } from 'src/app/util/forms-util';
 
 @Component({
   selector: 'app-registration',
@@ -21,7 +24,8 @@ export class RegistrationComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private accountService: AccountService,
     private authService: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private snackBar: SnackbarService) { }
 
   ngOnInit() {
     this.registrationForm = this.formBuilder.group({
@@ -92,9 +96,10 @@ export class RegistrationComponent implements OnInit {
           this.authService.login(new UserCredentials(login, password)).subscribe(
             (successfully: boolean) => {
               if (!successfully) {
-                alert("Регистрация завершена. Не удалось выполнить вход");
+                this.snackBar.show("Регистрация завершена. Не удалось выполнить вход");
               }
               this.router.navigate(['/']);
+              this.snackBar.show(Constants.EMIAL_CONFIRMATION_SENDED_MESSAGE);
             }
           )
         },
@@ -104,7 +109,7 @@ export class RegistrationComponent implements OnInit {
               let ve: ValidationError = err.error as ValidationError;
               if (ve.fieldErrors) {
                 ve.fieldErrors.forEach(e => {
-                  CustomValidators.addError(this.registrationForm.controls[e.field], "server", e.message);
+                  addError(this.registrationForm.controls[e.field], "server", e.message);
                 });
               }
             } else {

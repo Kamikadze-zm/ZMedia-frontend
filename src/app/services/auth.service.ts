@@ -143,7 +143,7 @@ export class AuthService {
         if (stringRole && stringRole.length > 0) {
             role = Role[stringRole.toUpperCase()];
         }
-        let user: User = new User(payload["sub"], payload["name"], role, payload["avatar"]);
+        let user: User = new User(payload["sub"], payload["name"], role, payload["avatar"], payload["confirmed"]);
         let expDate: string = payload["exp"] + "000";
         localStorage.setItem(AuthService.USER_KEY, JSON.stringify(user));
         this._user = user;
@@ -171,7 +171,7 @@ export class AuthService {
             const jsonUser = localStorage.getItem(AuthService.USER_KEY);
             if (jsonUser) {
                 const user: User = JSON.parse(jsonUser);
-                this._user = new User(user.email, user.name, user.role, user.avatar);
+                this._user = new User(user.email, user.name, user.role, user.avatar, user.confirmed);
             }
         }
         return this._user;

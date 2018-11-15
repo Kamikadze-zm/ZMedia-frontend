@@ -1,4 +1,4 @@
-import { ValidatorFn, AbstractControl, FormArray } from "@angular/forms";
+import { ValidatorFn, AbstractControl, FormArray, FormGroup, ValidationErrors } from "@angular/forms";
 
 export function isEmptyValue(value: any): boolean {
     return value == null || value.length === 0;
@@ -93,18 +93,27 @@ export class CustomValidators {
         };
     }
 
-    public static addError(control: AbstractControl, errorName: string, errorMessage: string) {
-        if (!control) {
-            return;
-        }
-        let error: string = control.getError(errorName);
-        if (error) {
-            error += `, ${errorMessage}`;
-        } else {
-            control.setErrors({
-                [errorName]: errorMessage
-            })
-        }
+    public static match(controlKey1: string, controlKey2: string, message: string): ValidatorFn {
+        return (fg: FormGroup): ValidationErrors | null => {
+            const control1: AbstractControl = fg.get(controlKey1);
+            const control2: AbstractControl = fg.get(controlKey2);
+            const errorKey: string = 'match';
+            if (control1.value !== control2.value) {
+                const error: ValidationErrors = { [errorKey]: message };
+                control1.setErrors(error);
+                control2.setErrors(error);
+            } else {
+                if (control1.hasError(errorKey)) {
+                    delete control1.errors[errorKey];
+                    control1.updateValueAndValidity();
+                }
+                if (control2.hasError(errorKey)) {
+                    delete control2.errors[errorKey];
+                    control2.updateValueAndValidity();
+                }
+            }
+            return null;
+        };
     }
 
     private static isEmptyFormArray(c: AbstractControl): boolean {

@@ -5,7 +5,7 @@ import { ImageService, ImageType } from '../../../services/image.service';
 import { Genre } from '../../../model/publication';
 import { Constants } from '../../../util/constants';
 import { isValidationError, ValidationError } from '../../../model/error';
-import { CustomValidators } from '../../../validators/custom-validators';
+import { addError } from 'src/app/util/forms-util';
 import { DownloadLinkForm } from '../../../model/download-link';
 import { GameService } from '../../../services/game.service';
 import { GameViewDTO, GameForm } from '../../../model/game';
@@ -87,9 +87,9 @@ export class GameFormComponent implements OnInit, OnChanges {
       (err) => {
         if (isValidationError(err)) {
           const ve: ValidationError = err.error as ValidationError;
-          CustomValidators.addError(c, "server", ve.fieldErrors[0].message);
+          addError(c, "server", ve.fieldErrors[0].message);
         } else {
-          CustomValidators.addError(c, "server", "Произошла ошибка, повторите попытку");
+          addError(c, "server", "Произошла ошибка, повторите попытку");
         }
       });
   }

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -25,6 +26,10 @@ import { RegistrationComponent } from './components/account/registration/registr
 import { AuthenticatedDirective } from './directives/auth/authenticated.directive';
 import { AuthorizedDirective } from './directives/auth/authorized.directive';
 import { NotAuthenticatedDirective } from './directives/auth/not-authenticated.directive';
+import { AccountComponent } from './components/account/account/account.component';
+import { EmailConfirmationComponent } from './components/account/email-confirmation/email-confirmation.component';
+import { PasswordRestoringRequestComponent } from './components/account/password-restoring-request/password-restoring-request.component';
+import { PasswordRestoringComponent } from './components/account/password-restoring/password-restoring.component';
 
 import { NoveltiesComponent } from './components/novelties/novelties.component';
 
@@ -64,6 +69,7 @@ import { GameEditComponent } from './components/games/edit/game-edit.component';
 
 import { SearchByNameFormComponent } from './components/search/byname-form/search-byname-form.component';
 import { SearchComponent } from './components/search/search/search.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -72,6 +78,8 @@ import { SearchComponent } from './components/search/search/search.component';
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule
   ],
   declarations: [
     AppComponent,
@@ -93,6 +101,10 @@ import { SearchComponent } from './components/search/search/search.component';
     AuthenticatedDirective,
     AuthorizedDirective,
     NotAuthenticatedDirective,
+    AccountComponent,
+    EmailConfirmationComponent,
+    PasswordRestoringRequestComponent,
+    PasswordRestoringComponent,
 
     NoveltiesComponent,
 

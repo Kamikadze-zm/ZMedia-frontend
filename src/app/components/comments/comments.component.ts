@@ -5,7 +5,7 @@ import { PublicationType } from '../../model/publication';
 import { plainToClass } from '../../../../node_modules/class-transformer';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { isValidationError, ValidationError } from '../../model/error';
-import { CustomValidators } from '../../validators/custom-validators';
+import { addError } from 'src/app/util/forms-util';
 import { ReplyCommentFormComponent } from './form/reply-comment/reply-comment-form.component';
 import { Subscription } from 'rxjs';
 import { DeleteCommentFormComponent } from './form/delete-comment/delete-comment-form.component';
@@ -57,21 +57,6 @@ export class CommentsComponent implements OnChanges {
     let comment: string = c.comment;
     this.createEditForm(commentId, comment);
   }
-
-  // function edit(commentId) {
-  //   var parentElement = document.getElementById('item' + commentId);
-  //   var comm = parentElement.getElementsByClassName('comment')[0].innerHTML;
-  //   comm = comm.replace('<cite>', '[quote]')
-  //     .replace('</cite><br/>', '[/quote]')
-  //     .replace('</cite><br>', '[/quote]')
-  //     .replace('<span class="user-name">', '[user]')
-  //     .replace(', </span>', '[/user]');
-  //   parentElement.getElementsByClassName('comment-info')[0].style.display = 'none';
-  //   parentElement.getElementsByClassName('comment')[0].style.display = 'none';
-  //   parentElement.getElementsByClassName('comment-actions')[0].style.display = 'none';
-  //   createForm(editFormId, commentId, parentElement, null, null, comm);
-  //   formEditExist = true;
-  // }
 
   reply(parentId: number): void {
     const c: CommentViewDTO = this.getComment(parentId);
@@ -214,7 +199,7 @@ export class CommentsComponent implements OnChanges {
             const ve: ValidationError = err.error as ValidationError;
             if (ve.fieldErrors) {
               ve.fieldErrors.forEach(e => {
-                CustomValidators.addError(form.controls[e.field], "server", e.message);
+                addError(form.controls[e.field], "server", e.message);
               });
             }
           } else {
@@ -233,7 +218,7 @@ export class CommentsComponent implements OnChanges {
             const ve: ValidationError = err.error as ValidationError;
             if (ve.fieldErrors) {
               ve.fieldErrors.forEach(e => {
-                CustomValidators.addError(form.controls[e.field], "server", e.message);
+                addError(form.controls[e.field], "server", e.message);
               });
             }
           } else {
@@ -269,215 +254,3 @@ export class CommentsComponent implements OnChanges {
     return this.comments.find(c => c.id === id);
   }
 }
-
-// var materialType = '';
-// var materialId = 0;
-// var replyFormId = 'replyCommentForm';
-// var editFormId = 'editCommentForm';
-// var deleteFormId = 'deleteCommentForm';
-// var formReplyExist = false;
-// var formEditExist = false;
-// var formDeleteExist = false;
-
-// function getComments() {
-//   var xmlhttp = new XMLHttpRequest();
-//   xmlhttp.open('Get', '/' + materialType + 'comments/getcomments/' + materialId, true);
-//   xmlhttp.onreadystatechange = function () {
-//     if (xmlhttp.readyState == 4) {
-//       var response = xmlhttp.responseText;
-//       if (xmlhttp.status != 200) {
-//         alert('Произошла ошибка загрузки комментариев');
-//       } else {
-//         var commentsBlock = document.getElementsByClassName('comments')[0];
-//         commentsBlock.innerHTML = response;
-//       }
-//     }
-//   };
-//   xmlhttp.send(null);
-// }
-
-// function sendComment(formId, actionType, commentId) {
-//   var form = document.getElementById(formId);
-//   var url;
-//   var fd = new FormData();
-//   switch (actionType) {
-//     case 'add':
-//     case 'reply':
-//       url = '/' + materialType + 'comments/add';
-//       fd.append("materialId", materialId);
-//       fd.append("comment", form.elements.comment.value);
-//       fd.append("parentId", form.elements.parentId.value);
-//       break;
-//     case 'edit':
-//       url = '/' + materialType + 'comments/edit/' + commentId;
-//       fd.append("comment", form.elements.comment.value);
-//       break;
-//     case 'delete':
-//       url = '/' + materialType + 'comments/delete/' + commentId;
-//       fd = null;
-//       break;
-//     case 'fulldelete':
-//       url = '/' + materialType + 'comments/fulldelete/' + commentId;
-//       fd = null;
-//       break;
-//   }
-//   var xmlhttp = new XMLHttpRequest();
-//   xmlhttp.open('POST', url, true);
-//   xmlhttp.onreadystatechange = function () {
-//     if (xmlhttp.readyState == 4) {
-//       var response = xmlhttp.responseText;
-//       if (xmlhttp.status != 200) {
-//         alert('Произошла ошибка отправки комментария, повторите попытку.');
-//       } else {
-//         if (response === 'true') {
-//           getComments();
-//           formReplyExist = false;
-//           formEditExist = false;
-//           formDeleteExist = false;
-//         } else {
-//           alert('Комментарий не прошел проверку.');
-//         }
-//       }
-//     }
-//   };
-//   xmlhttp.send(fd);
-// }
-
-// function reply(parentId) {
-//   var parentElement = document.getElementById('item' + parentId);
-//   var userName = parentElement.getElementsByClassName('comment-author')[0].textContent;
-//   createForm(replyFormId, parentId, parentElement, userName, null, null);
-//   formReplyExist = true;
-// }
-
-// function quote(parentId) {
-//   var parentElement = document.getElementById('item' + parentId);
-//   var userName = parentElement.getElementsByClassName('comment-author')[0].textContent;
-//   var quote = parentElement.getElementsByClassName('comment')[0].lastChild.nodeValue.trim();
-//   createForm(replyFormId, parentId, parentElement, userName, quote, null);
-//   formReplyExist = true;
-// }
-
-// function edit(commentId) {
-//   var parentElement = document.getElementById('item' + commentId);
-//   var comm = parentElement.getElementsByClassName('comment')[0].innerHTML;
-//   comm = comm.replace('<cite>', '[quote]')
-//     .replace('</cite><br/>', '[/quote]')
-//     .replace('</cite><br>', '[/quote]')
-//     .replace('<span class="user-name">', '[user]')
-//     .replace(', </span>', '[/user]');
-//   parentElement.getElementsByClassName('comment-info')[0].style.display = 'none';
-//   parentElement.getElementsByClassName('comment')[0].style.display = 'none';
-//   parentElement.getElementsByClassName('comment-actions')[0].style.display = 'none';
-//   createForm(editFormId, commentId, parentElement, null, null, comm);
-//   formEditExist = true;
-// }
-
-// function deleteC(commentId) {
-//   var parentElement = document.getElementById('item' + commentId);
-//   createDeleteForm('delete', parentElement, commentId);
-//   formDeleteExist = true;
-// }
-
-// function fullDelete(commentId) {
-//   var parentElement = document.getElementById('item' + commentId);
-//   createDeleteForm('fulldelete', parentElement, commentId);
-//   formDeleteExist = true;
-// }
-
-// function createForm(formId, commentId, parentElement, userName, quote, editComm) {
-//   cancelComment();
-//   var form = document.createElement('FORM');
-//   form.setAttribute('id', formId);
-//   form.setAttribute('method', 'post');
-//   var parentIdInput = document.createElement('INPUT');
-//   parentIdInput.setAttribute('type', 'hidden');
-//   parentIdInput.setAttribute('name', 'parentId');
-//   if (editComm == null) {
-//     parentIdInput.setAttribute('value', commentId);
-//   }
-//   var labelComment = document.createElement('LABEL');
-//   labelComment.setAttribute('for', 'comment');
-//   labelComment.innerHTML = 'Комментарий:';
-//   var brAfterLabel = document.createElement('BR');
-//   var textareaComment = document.createElement('TEXTAREA');
-//   textareaComment.setAttribute('name', 'comment');
-//   var comment = "";
-//   if (editComm != null) {
-//     comment += editComm;
-//   } else {
-//     if (quote != null) {
-//       comment += '[quote]' + quote + '[/quote]';
-//     }
-//     comment += '[user]' + userName + '[/user]';
-//   }
-//   textareaComment.innerHTML = comment;
-//   var brAfterTextArea = document.createElement('BR');
-//   var submit = document.createElement('INPUT');
-//   var actionType;
-//   if (editComm != null) {
-//     actionType = 'edit';
-//   } else {
-//     actionType = 'reply';
-//   }
-//   submit.setAttribute('type', 'button');
-//   submit.setAttribute('onclick', 'sendComment("' + formId + '", "' + actionType + '", ' + commentId + ')');
-//   submit.setAttribute('value', 'Комментировать');
-//   var cancel = document.createElement('INPUT');
-//   cancel.setAttribute('type', 'button');
-//   cancel.setAttribute('onclick', 'cancelComment()');
-//   cancel.setAttribute('value', 'Отмена');
-//   form.appendChild(parentIdInput);
-//   form.appendChild(labelComment);
-//   form.appendChild(brAfterLabel);
-//   form.appendChild(textareaComment);
-//   form.appendChild(brAfterTextArea);
-//   form.appendChild(submit);
-//   form.appendChild(cancel);
-//   parentElement.appendChild(form);
-// }
-
-// function createDeleteForm(action, parentElement, commentId) {
-//   cancelComment();
-//   var form = document.createElement('FORM');
-//   form.setAttribute('id', deleteFormId);
-//   form.setAttribute('method', 'post');
-//   var submit = document.createElement('INPUT');
-//   submit.setAttribute('type', 'button');
-//   submit.setAttribute('onclick', 'sendComment("' + deleteFormId + '", "' + action + '", ' + commentId + ')');
-//   submit.setAttribute('value', 'Удалить');
-//   var cancel = document.createElement('INPUT');
-//   cancel.setAttribute('type', 'button');
-//   cancel.setAttribute('onclick', 'cancelComment()');
-//   cancel.setAttribute('value', 'Отмена');
-//   form.appendChild(submit);
-//   form.appendChild(cancel);
-//   parentElement.appendChild(form);
-// }
-
-// function cancelComment() {
-//   if (formReplyExist) {
-//     var replyForm = document.getElementById(replyFormId);
-//     replyForm.parentNode.removeChild(replyForm);
-//     formReplyExist = false;
-//   }
-//   if (formEditExist) {
-//     var editForm = document.getElementById(editFormId);
-//     var item = editForm.parentNode;
-//     item.getElementsByClassName('comment-info')[0].style.display = 'block';
-//     item.getElementsByClassName('comment')[0].style.display = 'block';
-//     item.getElementsByClassName('comment-actions')[0].style.display = 'block';
-//     item.removeChild(editForm);
-//     formEditExist = false;
-//   }
-//   if (formDeleteExist) {
-//     var deleteForm = document.getElementById(deleteFormId);
-//     deleteForm.parentNode.removeChild(deleteForm);
-//     formDeleteExist = false;
-//   }
-// }
-
-// function comments(type, id) {
-//   this.materialType = type;
-//   this.materialId = id;
-// }

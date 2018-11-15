@@ -8,6 +8,10 @@ import { ErrorComponent } from './error-handler/error/error.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegistrationComponent } from './components/account/registration/registration.component';
+import { AccountComponent } from './components/account/account/account.component';
+import { EmailConfirmationComponent } from './components/account/email-confirmation/email-confirmation.component';
+import { PasswordRestoringRequestComponent } from './components/account/password-restoring-request/password-restoring-request.component';
+import { PasswordRestoringComponent } from './components/account/password-restoring/password-restoring.component';
 
 import { NoveltiesComponent } from './components/novelties/novelties.component';
 
@@ -31,6 +35,10 @@ const routes: Routes = [
     { path: '', component: NoveltiesComponent, pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'registration', component: RegistrationComponent },
+    { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
+    { path: 'account/email-confirm/:code', component: EmailConfirmationComponent },
+    { path: 'account/password-restoring', component: PasswordRestoringRequestComponent },
+    { path: 'account/password-restoring/:code', component: PasswordRestoringComponent },
     { path: 'films', component: FilmsComponent },
     { path: 'films/add', component: FilmAddComponent, canActivate: [AuthGuard], data: { role: 'MODER' } },
     { path: 'films/:id', component: FilmDetailsComponent },

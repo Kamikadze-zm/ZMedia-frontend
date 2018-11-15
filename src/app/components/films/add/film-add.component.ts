@@ -3,11 +3,10 @@ import { Router } from '@angular/router';
 import { FormGroup, FormArray } from '@angular/forms';
 import { FilmService } from '../../../services/film.service';
 import { isValidationError, ValidationError } from '../../../model/error';
-import { CustomValidators } from '../../../validators/custom-validators';
 import { PublicationType } from '../../../model/publication';
 import { FilmViewDTO } from '../../../model/film';
 import { plainToClass } from 'class-transformer';
-import { markTouched } from '../../../util/forms-util';
+import { markTouched, addError } from '../../../util/forms-util';
 
 @Component({
   selector: 'app-film-add',
@@ -31,7 +30,7 @@ export class FilmAddComponent {
             const ve: ValidationError = err.error as ValidationError;
             if (ve.fieldErrors) {
               ve.fieldErrors.forEach(e => {
-                CustomValidators.addError(event.get(e.field.replace('[', '.').replace(']', '')), "server", e.message);
+                addError(event.get(e.field.replace('[', '.').replace(']', '')), "server", e.message);
               });
             }
           } else {

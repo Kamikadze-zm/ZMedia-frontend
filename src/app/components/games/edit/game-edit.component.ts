@@ -2,13 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormArray } from '@angular/forms';
 import { isValidationError, ValidationError } from '../../../model/error';
-import { CustomValidators } from '../../../validators/custom-validators';
 import { Subscription } from 'rxjs';
 import { PublicationType } from '../../../model/publication';
 import { GameService } from '../../../services/game.service';
 import { GameViewDTO } from '../../../model/game';
 import { plainToClass } from 'class-transformer';
-import { markTouched } from '../../../util/forms-util';
+import { markTouched, addError } from '../../../util/forms-util';
 
 @Component({
   selector: 'app-game-edit',
@@ -43,7 +42,7 @@ export class GameEditComponent implements OnInit, OnDestroy {
             const ve: ValidationError = err.error as ValidationError;
             if (ve.fieldErrors) {
               ve.fieldErrors.forEach(e => {
-                CustomValidators.addError(event.get(e.field.replace('[', '.').replace(']', '')), "server", e.message);
+                addError(event.get(e.field.replace('[', '.').replace(']', '')), "server", e.message);
               });
             }
           } else {

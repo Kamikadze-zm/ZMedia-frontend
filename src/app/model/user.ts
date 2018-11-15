@@ -1,5 +1,9 @@
 export class User {
-    constructor(public email: string, public name: string, public role: Role, public avatar: string) {
+    constructor(public email: string,
+        public name: string,
+        public role: Role,
+        public avatar: string,
+        public confirmed: boolean) {
     }
 
     public hasRole(role: Role): boolean {

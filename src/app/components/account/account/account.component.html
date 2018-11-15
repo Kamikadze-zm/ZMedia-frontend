@@ -1,0 +1,6 @@
+<h2>Аккаунт</h2>
+<h3><strong>{{user?.name}} </strong><!--<a routerLink="changepassword">Изменить пароль</a>--></h3>
+<p>Email: {{user?.email}} <ng-container *ngIf="!user?.confirmed">не подтвержден.
+        <a class="link" (click)="sendMessage()">Выслать сообщение</a></ng-container>
+</p>
+<p>Аватар: <img src="{{user?.avatar}}"/><!-- <a routerLink="changeavatar">Изменить аватар</a>--></p>
