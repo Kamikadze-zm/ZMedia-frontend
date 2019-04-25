@@ -31,6 +31,8 @@ import { GameDetailsComponent } from './components/games/details/game-details.co
 import { GameEditComponent } from './components/games/edit/game-edit.component';
 import { SearchComponent } from './components/search/search/search.component';
 
+import { OnlineComponent } from './online/online.component';
+
 const routes: Routes = [
     { path: '', component: NoveltiesComponent, pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
@@ -53,6 +55,7 @@ const routes: Routes = [
     { path: 'games/:id/edit', component: GameEditComponent, canActivate: [AuthGuard], data: { role: 'MODER' } },
     { path: 'search', component: SearchComponent },
     { path: 'search/:name', component: SearchComponent },
+    { path: 'online', component: OnlineComponent, canActivate: [AuthGuard] },
     { path: '403', component: AccessDeniedComponent },
     { path: '404', component: PageNotFoundComponent },
     { path: 'error', component: ErrorComponent },

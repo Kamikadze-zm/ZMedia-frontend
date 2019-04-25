@@ -3,6 +3,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -69,7 +70,9 @@ import { GameEditComponent } from './components/games/edit/game-edit.component';
 
 import { SearchByNameFormComponent } from './components/search/byname-form/search-byname-form.component';
 import { SearchComponent } from './components/search/search/search.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { OnlineComponent } from './online/online.component';
+import { VideoPlayerComponent } from './online/video-player/video-player/video-player.component';
 
 @NgModule({
   imports: [
@@ -143,7 +146,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     GameEditComponent,
 
     SearchByNameFormComponent,
-    SearchComponent
+    SearchComponent,
+
+    OnlineComponent,
+
+    VideoPlayerComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

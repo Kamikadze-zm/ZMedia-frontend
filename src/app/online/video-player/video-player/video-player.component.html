@@ -1,0 +1,24 @@
+<div class="video-player"
+  [ngStyle]="{'display':playerVisible === true ? 'block' : 'none', 'cursor':cursorVisible === true ? 'default' : 'none'}"
+  (mouseenter)="mouseEnterToPlayer()" (mouseleave)="mouseLeaveFromPlayer()" (mousemove)="mouseMoveInPlayer()">
+  <video class="video" #videoPlayer></video>
+  <div class="controls" [ngClass]="{'transition-in':controlsVisible, 'transition-out':!controlsVisible}"
+    (mouseenter)="mouseEnterToControls()" (mouseleave)="mouseLeaveFromControls()">
+    <div class="left-controls">
+      <button class="control-button play-button" [title]="playStopTitle" (click)="playStop()">
+        <span class="glyphicon" [ngClass]="playStopClass" aria-hidden="true"></span>
+      </button>
+      <button class="control-button" [title]="muteUnmuteTitle" (click)="muteUnmute()">
+        <span class="glyphicon" [ngClass]="muteUnmuteClass" aria-hidden="true"></span>
+      </button>
+      <input class="control-slider" type="range" name="rangeVolume" min="0" max="100" step="1" title="Громкость"
+        [ngModel]="rangeVolume" (input)="changeVolume($event.target.value)">
+    </div>
+    <div class="right-controls">
+      <button class="control-button fullscreen-button" [title]="fullscreenNormalModeTitle"
+        (click)="fullscreenNormalMode()">
+        <span class="glyphicon" [ngClass]="fullscreenNormalModeClass" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</div>

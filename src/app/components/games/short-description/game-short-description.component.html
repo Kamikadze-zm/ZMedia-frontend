@@ -1,24 +1,24 @@
 <div class="media-body" style="overflow:visible">
     <div class="media-left media-top pull-left">
-        <img src="{{game?.coverLink}}" class="media-object" style="width:185px; height: 207px" />
+        <img src="{{game?.coverLink}}" alt="{{game?.name}}" class="media-object" style="width:185px; height: 207px" />
     </div>
     <strong>Название: </strong>
     <span class="text">{{game?.name}}</span>
-    <br/>
+    <br />
     <ng-container *ngIf="game?.originalName">
         <strong>Оригинальное название: </strong>
         <span class="text">{{game?.originalName}}</span>
-        <br/>
+        <br />
     </ng-container>
     <strong>Год выхода: </strong>
     <span class="text">{{game?.releaseYear}}</span>
-    <br/>
+    <br />
     <strong>Жанр: </strong>
     <span class="text">{{game?.stringGenres}}</span>
-    <br/>
+    <br />
     <strong>Размер: </strong>
     <span class="text">{{game?.formattedFileSize}}</span>
-    <br/>
+    <br />
     <p innerHTML={{game?.additionalInfo}}></p>
     <strong>Об игре: </strong>
     <span class="text">{{game?.description}}</span>

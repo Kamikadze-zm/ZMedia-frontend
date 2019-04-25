@@ -1,12 +1,14 @@
 <h2>Новинки
   <ng-container *ngIf="notificationsIsAvailable">
-    <button type="button" *ngIf="isSubscribed" (click)="unsubscribe()" class="btn btn-default">Отписаться от уведомлений</button>
-    <button type="button" *ngIf="!isSubscribed" (click)="subscribe()" class="btn btn-primary">Подписаться на уведомления</button>
+    <button type="button" *ngIf="isSubscribed" (click)="unsubscribe()" class="btn btn-default">Отписаться от
+      уведомлений</button>
+    <button type="button" *ngIf="!isSubscribed" (click)="subscribe()" class="btn btn-primary">Подписаться на
+      уведомления</button>
   </ng-container>
 </h2>
 <div class="col-sm-6 media novelty" *ngFor="let n of novelties">
   <div class="media-left media-top">
-    <img src="{{n?.coverLink}}" class="media-object" style="width:185px; height: 207px" />
+    <img src="{{n?.coverLink}}" alt="{{n.header}}" class="media-object" style="width:185px; height: 207px" />
   </div>
   <div class="media-body">
     <h4 class="media-heading">
