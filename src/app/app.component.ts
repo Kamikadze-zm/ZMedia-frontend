@@ -3,14 +3,13 @@ import { initializeApp } from 'firebase/app';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
 
   private year: number;
 
-  isShowToTop: boolean = false;
+  isShowToTopButton: boolean = false;
 
   ngOnInit() {
     initializeApp({
@@ -31,11 +30,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   scroll() {
-    if (window.pageYOffset > 500) {
-      this.isShowToTop = true;
-    } else {
-      this.isShowToTop = false;
-    }
+    this.isShowToTopButton = window.pageYOffset > 500;
   }
 
 }

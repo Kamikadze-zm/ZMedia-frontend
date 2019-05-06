@@ -1,0 +1,14 @@
+<h2>Фильмы</h2>
+<div class="col-sm-12">
+  <a *authorized="'MODER'" routerLink="/admin/films/add">Добавить фильм</a>
+  <div class="media publication" *ngFor="let f of films">
+    <h3 class="media-heading">
+      <a routerLink="{{f?.id}}">{{f?.header}}
+        <span *ngIf="f?.note" class="note"> {{f?.note}}</span>
+      </a>
+    </h3>
+    <film-short-description [film]="f"></film-short-description>
+    <publication-short-info [p]="f"></publication-short-info>
+  </div>
+  <pagination [pagination]="pagination"></pagination>
+</div>

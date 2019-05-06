@@ -1,65 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PageNotFoundComponent } from './error-handler/404/page-not-found.component';
-import { AccessDeniedComponent } from './error-handler/403/access-denied.component';
-import { ErrorComponent } from './error-handler/error/error.component';
-
-import { AuthGuard } from './guards/auth.guard';
-import { LoginComponent } from './components/auth/login/login.component';
-import { RegistrationComponent } from './components/account/registration/registration.component';
-import { AccountComponent } from './components/account/account/account.component';
-import { EmailConfirmationComponent } from './components/account/email-confirmation/email-confirmation.component';
-import { PasswordRestoringRequestComponent } from './components/account/password-restoring-request/password-restoring-request.component';
-import { PasswordRestoringComponent } from './components/account/password-restoring/password-restoring.component';
-
-import { NoveltiesComponent } from './components/novelties/novelties.component';
-
-import { FilmsComponent } from './components/films/list/films.component';
-import { FilmAddComponent } from './components/films/add/film-add.component';
-import { FilmDetailsComponent } from './components/films/details/film-details.component';
-import { FilmEditComponent } from './components/films/edit/film-edit.component';
-
-import { TvSeriesComponent } from './components/tv-series/list/tv-series.component';
-import { TvSeriesDetailsComponent } from './components/tv-series/details/tv-series-details.component';
-import { TvSeriesAddComponent } from './components/tv-series/add/tv-series-add.component';
-import { TvSeriesEditComponent } from './components/tv-series/edit/tv-series-edit.component';
-
-import { GamesComponent } from './components/games/list/games.component';
-import { GameAddComponent } from './components/games/add/game-add.component';
-import { GameDetailsComponent } from './components/games/details/game-details.component';
-import { GameEditComponent } from './components/games/edit/game-edit.component';
-import { SearchComponent } from './components/search/search/search.component';
-
-import { OnlineComponent } from './online/online.component';
-
 const routes: Routes = [
-    { path: '', component: NoveltiesComponent, pathMatch: 'full' },
-    { path: 'login', component: LoginComponent },
-    { path: 'registration', component: RegistrationComponent },
-    { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
-    { path: 'account/email-confirm/:code', component: EmailConfirmationComponent },
-    { path: 'account/password-restoring', component: PasswordRestoringRequestComponent },
-    { path: 'account/password-restoring/:code', component: PasswordRestoringComponent },
-    { path: 'films', component: FilmsComponent },
-    { path: 'films/add', component: FilmAddComponent, canActivate: [AuthGuard], data: { role: 'MODER' } },
-    { path: 'films/:id', component: FilmDetailsComponent },
-    { path: 'films/:id/edit', component: FilmEditComponent, canActivate: [AuthGuard], data: { role: 'MODER' } },
-    { path: 'tvseries', component: TvSeriesComponent },
-    { path: 'tvseries/add', component: TvSeriesAddComponent, canActivate: [AuthGuard], data: { role: 'MODER' } },
-    { path: 'tvseries/:id', component: TvSeriesDetailsComponent },
-    { path: 'tvseries/:id/edit', component: TvSeriesEditComponent, canActivate: [AuthGuard], data: { role: 'MODER' } },
-    { path: 'games', component: GamesComponent },
-    { path: 'games/add', component: GameAddComponent, canActivate: [AuthGuard], data: { role: 'MODER' } },
-    { path: 'games/:id', component: GameDetailsComponent },
-    { path: 'games/:id/edit', component: GameEditComponent, canActivate: [AuthGuard], data: { role: 'MODER' } },
-    { path: 'search', component: SearchComponent },
-    { path: 'search/:name', component: SearchComponent },
-    { path: 'online', component: OnlineComponent, canActivate: [AuthGuard] },
-    { path: '403', component: AccessDeniedComponent },
-    { path: '404', component: PageNotFoundComponent },
-    { path: 'error', component: ErrorComponent },
-    { path: '**', redirectTo: '/404' }
+    { path: 'account', loadChildren: 'src/account/account.module#AccountModule' },
+    { path: 'films', loadChildren: 'src/films/films.module#FilmsModule' },
+    { path: 'tvseries', loadChildren: 'src/tv-series/tv-series.module#TvSeriesModule' },
+    { path: 'games', loadChildren: 'src/games/games.module#GamesModule' },
+    { path: 'search', loadChildren: 'src/search/search.module#SearchModule' },
+    { path: 'online', loadChildren: 'src/online/online.module#OnlineModule' },
+    { path: 'admin', loadChildren: 'src/admin/admin.module#AdminModule' },
 ];
 
 @NgModule({
